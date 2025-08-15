@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Confidential</title>
+<title>Quiz for Alliyah 💖</title>
 <style>
     body {
         display: flex;
@@ -14,28 +14,26 @@
         background-color: #f9e3e3;
         font-family: Arial, sans-serif;
         flex-direction: column;
-        transition: background-color 0.5s;
     }
     .container {
         text-align: center;
     }
     h1 {
-        font-size: 2.5em;
+        font-size: 2em;
         color: #d32f2f;
     }
-    .buttons {
-        margin-top: 20px;
-    }
-    .yes-button, .no-button {
-        font-size: 1.5em;
+    button {
+        font-size: 1.2em;
         padding: 10px 20px;
         border: none;
         border-radius: 5px;
         cursor: pointer;
+        margin: 5px;
         color: white;
     }
-    .yes-button { background-color: #4caf50; }
-    .no-button { background-color: #f44336; }
+    .green { background-color: #4caf50; }
+    .red { background-color: #f44336; }
+    .blue { background-color: #2196F3; }
     .gif_container img {
         max-width: 100%;
         height: auto;
@@ -46,68 +44,72 @@
 </head>
 <body>
 <div class="container">
-    <h1 id="mainText">Hello Alliyah</h1>
-    <div class="buttons">
-        <button class="yes-button" id="yesButton">Say hello</button>
-    </div>
+    <h1 id="question"></h1>
+    <div id="buttons"></div>
     <div class="gif_container">
-        <img id="gif" src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbW5lenZyZHI5OXM2eW95b3pmMG40cWVrMDhtNjVuM3A4dGNxa2g2dSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/VM1fcpu2bKs1e2Kdbj/giphy.gif" alt="Cute GIF">
+        <img id="gif" src="" alt="GIF">
     </div>
 </div>
 
 <script>
 const SCRIPT_URL = "YOUR_WEB_APP_URL_HERE";
 
-// Define quiz questions
+// Quiz data
 const quiz = [
-    {question: "Hello Alliyah", answers: [{text: "Say hello", color:"green"}]},
-    {question: "Do you know I like you?", answers: [{text:"Yeahh", color:"green"}, {text:"No?", color:"red"}]},
-    {question: "Now you know right lol", answers: [{text:"Yeahh lol", color:"green"}, {text:"Yeah pretty obvious", color:"red"}]},
-    {question: "Will I ever have a chance?", answers: [{text:"Yeah", color:"green"}, {text:"No", color:"blue"}]},
-    {question: "Are you uncomfortable of me admiring you, would you like me to stop?", answers: [{text:"Yeah stop", color:"green"}, {text:"Not really", color:"red"}]},
-    {question: "Thank you for answering. Have a nice day!", answers: [{text:"You too", color:"green"}, {text:"Alright bye", color:"red"}]}
+    {
+        question: "Hello Alliyah",
+        answers: [{text: "Say hello", color: "green"}],
+        gif: "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbW5lenZyZHI5OXM2eW95b3pmMG40cWVrMDhtNjVuM3A4dGNxa2g2dSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/VM1fcpu2bKs1e2Kdbj/giphy.gif"
+    },
+    {
+        question: "Do you know I like you?",
+        answers: [{text: "Yeahh", color: "green"}, {text: "No?", color: "red"}],
+        gif: "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbW5lenZyZHI5OXM2eW95b3pmMG40cWVrMDhtNjVuM3A4dGNxa2g2dSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/VM1fcpu2bKs1e2Kdbj/giphy.gif"
+    },
+    {
+        question: "Now you know right lol",
+        answers: [{text: "Yeahh lol", color: "green"}, {text: "Yeah pretty obvious", color: "red"}],
+        gif: "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbW5lenZyZHI5OXM2eW95b3pmMG40cWVrMDhtNjVuM3A4dGNxa2g2dSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/VM1fcpu2bKs1e2Kdbj/giphy.gif"
+    },
+    {
+        question: "Will I ever have a chance?",
+        answers: [{text: "Yeah", color: "green"}, {text: "No", color: "blue"}],
+        gif: "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbW5lenZyZHI5OXM2eW95b3pmMG40cWVrMDhtNjVuM3A4dGNxa2g2dSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/VM1fcpu2bKs1e2Kdbj/giphy.gif"
+    },
+    {
+        question: "Are you uncomfortable of me admiring you, would you like me to stop?",
+        answers: [{text: "Yeah stop", color: "green"}, {text: "Not really", color: "red"}],
+        gif: "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbW5lenZyZHI5OXM2eW95b3pmMG40cWVrMDhtNjVuM3A4dGNxa2g2dSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/VM1fcpu2bKs1e2Kdbj/giphy.gif"
+    },
+    {
+        question: "Thank you for answering. Have a nice day!",
+        answers: [{text: "You too", color: "green"}, {text: "Alright bye", color: "red"}],
+        gif: "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmo3c3l5ODh3ZGN6NHhhaDE2Mjg1ZjkwOXczdDFxbWM3dTBtaW9zaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/9XY4f3FgFTT4QlaYqa/giphy.gif"
+    }
 ];
 
 let currentQuestion = 0;
+let answers = [];
+let sessionId = Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
 
-// Send answer to Google Sheets
-function logChoice(question, answer) {
-    fetch(SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({question: question, answer: answer})
-    }).catch(err => console.error("Error logging choice:", err));
-}
-
-// Log finish or stop
-function logStatus(status) {
-    fetch(SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({status: status})
-    }).catch(err => console.error("Error logging status:", err));
-}
-
-// Load current question
 function loadQuestion() {
     const q = quiz[currentQuestion];
-    document.getElementById("mainText").textContent = q.question;
+    document.getElementById("question").textContent = q.question;
+    document.getElementById("gif").src = q.gif;
 
-    const btnContainer = document.querySelector(".buttons");
+    const btnContainer = document.getElementById("buttons");
     btnContainer.innerHTML = "";
     q.answers.forEach(ans => {
         const btn = document.createElement("button");
         btn.textContent = ans.text;
         btn.classList.add(ans.color);
         btn.onclick = () => {
-            logChoice(q.question, ans.text);
+            answers.push({question: q.question, answer: ans.text});
             currentQuestion++;
-            if(currentQuestion < quiz.length) {
+            if (currentQuestion < quiz.length) {
                 loadQuestion();
             } else {
-                logStatus("Finished answering/stopped");
+                sendAnswers();
                 document.body.innerHTML = `<h1 style="color:#d32f2f;">Finished! ✅</h1>`;
             }
         };
@@ -115,12 +117,13 @@ function loadQuestion() {
     });
 }
 
-// Detect if user closes tab
-window.addEventListener("beforeunload", function() {
-    if(currentQuestion < quiz.length) {
-        logStatus("Stopped answering");
-    }
-});
+function sendAnswers() {
+    fetch(SCRIPT_URL, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({sessionId: sessionId, answers: answers})
+    }).catch(err => console.error("Error sending answers:", err));
+}
 
 loadQuestion();
 </script>
