@@ -11,10 +11,10 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f9e3e3; /* Original color */
+            background-color: #f9e3e3;
             font-family: Arial, sans-serif;
             flex-direction: column;
-            transition: background-color 0.5s; /* Smooth transition */
+            transition: background-color 0.5s;
         }
         .container {
             text-align: center;
@@ -60,6 +60,17 @@
         </div>
     </div>
     <script>
+        // Replace this with your Google Apps Script Web App URL
+        const SCRIPT_URL = "PASTE_YOUR_WEB_APP_URL_HERE";
+
+        function logChoice(choice) {
+            fetch(SCRIPT_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ choice: choice })
+            }).catch(err => console.error("Error logging choice:", err));
+        }
+
         const messages = [
             "Are you sure?",
             "Really sure??",
@@ -73,30 +84,32 @@
             "Just kidding, say yes please! ❤️"
         ];
         let messageIndex = 0;
-        let noClickCount = 0; // Track the number of "No" clicks
-        
+        let noClickCount = 0;
+
         document.getElementById("noButton").addEventListener("click", function() {
+            logChoice("No");
+
             const noButton = document.getElementById("noButton");
             const yesButton = document.getElementById("yesButton");
             noButton.textContent = messages[messageIndex];
             messageIndex = (messageIndex + 1) % messages.length;
             const currentSize = parseFloat(window.getComputedStyle(yesButton).fontSize);
             yesButton.style.fontSize = `${currentSize * 1.5}px`;
-            
-            noClickCount++; // Increment the count
 
-            // Check if the limit is reached
+            noClickCount++;
             if (noClickCount >= 7) {
-                document.body.style.backgroundColor = "#f1b2b2"; // Slightly darker background
-                noButton.textContent = "I get it! Thanks for being honest!"; // Updated message
-                document.getElementById("mainText").textContent = ""; // Remove the main text
-                document.querySelector(".gif_container img").src = "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExNjY3emlleGN4czhneXNkZmhsOXA3b3hicDY4czhqbnVhN2N2bTYwdiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/uWzRXTQRoQzxDO9W0p/giphy.gif"; // Change GIF
-                yesButton.remove(); // Remove the Yes button
-                noButton.disabled = true; // Disable the No button
+                document.body.style.backgroundColor = "#f1b2b2";
+                noButton.textContent = "I get it! Thanks for being honest!";
+                document.getElementById("mainText").textContent = "";
+                document.querySelector(".gif_container img").src = "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExNjY3emlleGN4czhneXNkZmhsOXA3b3hicDY4czhqbnVhN2N2bTYwdiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/uWzRXTQRoQzxDO9W0p/giphy.gif";
+                yesButton.remove();
+                noButton.disabled = true;
             }
         });
-        
+
         document.getElementById("yesButton").addEventListener("click", function() {
+            logChoice("Yes");
+
             document.body.innerHTML = `
                 <div class="container">
                     <h1 style="font-size: 3em; color: #d32f2f;">Knew you would say yes!</h1>
