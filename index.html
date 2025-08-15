@@ -1,124 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yes... or No? 🤔❤️</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f9e3e3;
-            font-family: Arial, sans-serif;
-            flex-direction: column;
-            transition: background-color 0.5s;
-        }
-        .container {
-            text-align: center;
-        }
-        h1 {
-            font-size: 2.5em;
-            color: #d32f2f;
-        }
-        .buttons {
-            margin-top: 20px;
-        }
-        .yes-button, .no-button {
-            font-size: 1.5em;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            color: white;
-        }
-        .yes-button {
-            background-color: #4caf50;
-        }
-        .no-button {
-            background-color: #f44336;
-        }
-        .gif_container img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Confidential</title>
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f9e3e3;
+        font-family: Arial, sans-serif;
+        flex-direction: column;
+        transition: background-color 0.5s;
+    }
+    .container {
+        text-align: center;
+    }
+    h1 {
+        font-size: 2.5em;
+        color: #d32f2f;
+    }
+    .buttons {
+        margin-top: 20px;
+    }
+    .yes-button, .no-button {
+        font-size: 1.5em;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        color: white;
+    }
+    .yes-button { background-color: #4caf50; }
+    .no-button { background-color: #f44336; }
+    .gif_container img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        margin-top: 20px;
+    }
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1 id="mainText">Will you be my Valentine?</h1>
-        <div class="buttons">
-            <button class="yes-button" id="yesButton">Yes</button>
-            <button class="no-button" id="noButton">No</button>
-        </div>
-        <div class="gif_container">
-            <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbW5lenZyZHI5OXM2eW95b3pmMG40cWVrMDhtNjVuM3A4dGNxa2g2dSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/VM1fcpu2bKs1e2Kdbj/giphy.gif" alt="Cute Cat GIF">
-        </div>
+<div class="container">
+    <h1 id="mainText">Hello Alliyah</h1>
+    <div class="buttons">
+        <button class="yes-button" id="yesButton">Say hello</button>
     </div>
-    <script>
-        // Your live Web App URL (make sure it’s from the latest deployment and set to "Anyone")
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVWShCr5O13EXzS4OpXpcCujIrFAZ3M6GESgkQC7OWu56_RPaIf7CoS9XS9NsF0hc/exec";
+    <div class="gif_container">
+        <img id="gif" src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbW5lenZyZHI5OXM2eW95b3pmMG40cWVrMDhtNjVuM3A4dGNxa2g2dSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/VM1fcpu2bKs1e2Kdbj/giphy.gif" alt="Cute GIF">
+    </div>
+</div>
 
-        function logChoice(choice) {
-            fetch(SCRIPT_URL, {
-                method: "POST",
-                mode: "no-cors", // prevent CORS errors
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ choice: choice })
-            }).catch(err => console.error("Error logging choice:", err));
-        }
+<script>
+const SCRIPT_URL = "YOUR_WEB_APP_URL_HERE";
 
-        const messages = [
-            "Are you sure?",
-            "Really sure??",
-            "Are you positive?",
-            "Pookie please...",
-            "Just think about it!",
-            "If you say no, I will be really sad...",
-            "I will be very sad...",
-            "I will be very very very sad...",
-            "Ok fine, I will stop asking...",
-            "Just kidding, say yes please! ❤️"
-        ];
-        let messageIndex = 0;
-        let noClickCount = 0;
+// Define quiz questions
+const quiz = [
+    {question: "Hello Alliyah", answers: [{text: "Say hello", color:"green"}]},
+    {question: "Do you know I like you?", answers: [{text:"Yeahh", color:"green"}, {text:"No?", color:"red"}]},
+    {question: "Now you know right lol", answers: [{text:"Yeahh lol", color:"green"}, {text:"Yeah pretty obvious", color:"red"}]},
+    {question: "Will I ever have a chance?", answers: [{text:"Yeah", color:"green"}, {text:"No", color:"blue"}]},
+    {question: "Are you uncomfortable of me admiring you, would you like me to stop?", answers: [{text:"Yeah stop", color:"green"}, {text:"Not really", color:"red"}]},
+    {question: "Thank you for answering. Have a nice day!", answers: [{text:"You too", color:"green"}, {text:"Alright bye", color:"red"}]}
+];
 
-        document.getElementById("noButton").addEventListener("click", function() {
-            logChoice("No");
+let currentQuestion = 0;
 
-            const noButton = document.getElementById("noButton");
-            const yesButton = document.getElementById("yesButton");
-            noButton.textContent = messages[messageIndex];
-            messageIndex = (messageIndex + 1) % messages.length;
-            const currentSize = parseFloat(window.getComputedStyle(yesButton).fontSize);
-            yesButton.style.fontSize = `${currentSize * 1.5}px`;
+// Send answer to Google Sheets
+function logChoice(question, answer) {
+    fetch(SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({question: question, answer: answer})
+    }).catch(err => console.error("Error logging choice:", err));
+}
 
-            noClickCount++;
-            if (noClickCount >= 7) {
-                document.body.style.backgroundColor = "#f1b2b2";
-                noButton.textContent = "I get it! Thanks for being honest!";
-                document.getElementById("mainText").textContent = "";
-                document.querySelector(".gif_container img").src = "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExNjY3emlleGN4czhneXNkZmhsOXA3b3hicDY4czhqbnVhN2N2bTYwdiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/uWzRXTQRoQzxDO9W0p/giphy.gif";
-                yesButton.remove();
-                noButton.disabled = true;
+// Log finish or stop
+function logStatus(status) {
+    fetch(SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({status: status})
+    }).catch(err => console.error("Error logging status:", err));
+}
+
+// Load current question
+function loadQuestion() {
+    const q = quiz[currentQuestion];
+    document.getElementById("mainText").textContent = q.question;
+
+    const btnContainer = document.querySelector(".buttons");
+    btnContainer.innerHTML = "";
+    q.answers.forEach(ans => {
+        const btn = document.createElement("button");
+        btn.textContent = ans.text;
+        btn.classList.add(ans.color);
+        btn.onclick = () => {
+            logChoice(q.question, ans.text);
+            currentQuestion++;
+            if(currentQuestion < quiz.length) {
+                loadQuestion();
+            } else {
+                logStatus("Finished answering/stopped");
+                document.body.innerHTML = `<h1 style="color:#d32f2f;">Finished! ✅</h1>`;
             }
-        });
+        };
+        btnContainer.appendChild(btn);
+    });
+}
 
-        document.getElementById("yesButton").addEventListener("click", function() {
-            logChoice("Yes");
+// Detect if user closes tab
+window.addEventListener("beforeunload", function() {
+    if(currentQuestion < quiz.length) {
+        logStatus("Stopped answering");
+    }
+});
 
-            document.body.innerHTML = `
-                <div class="container">
-                    <h1 style="font-size: 3em; color: #d32f2f;">Knew you would say yes!</h1>
-                    <div class="gif_container">
-                        <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmo3c3l5ODh3ZGN6NHhhaDE2Mjg1ZjkwOXczdDFxbWM3dTBtaW9zaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/9XY4f3FgFTT4QlaYqa/giphy.gif" alt="Cute GIF">
-                    </div>
-                </div>`;
-        });
-    </script>
+loadQuestion();
+</script>
 </body>
 </html>
