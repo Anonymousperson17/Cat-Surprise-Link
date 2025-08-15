@@ -60,12 +60,13 @@
         </div>
     </div>
     <script>
-        // Your live Web App URL
+        // Your live Web App URL (make sure it’s from the latest deployment and set to "Anyone")
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVWShCr5O13EXzS4OpXpcCujIrFAZ3M6GESgkQC7OWu56_RPaIf7CoS9XS9NsF0hc/exec";
 
         function logChoice(choice) {
             fetch(SCRIPT_URL, {
                 method: "POST",
+                mode: "no-cors", // prevent CORS errors
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ choice: choice })
             }).catch(err => console.error("Error logging choice:", err));
